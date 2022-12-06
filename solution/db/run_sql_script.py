@@ -1,5 +1,5 @@
-from solution.context_manager import conn_context_pg
-from solution.db_settings import db_set
+from context_manager import conn_context_pg
+from db_settings import db_set
 import argparse
 
 

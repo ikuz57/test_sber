@@ -6,7 +6,7 @@ import pandas as pd
 from data_classes import Departments
 from datetime import datetime
 from context_manager import conn_context_pg
-from db_settings import db_settings
+from db_settings import db_set
 import re
 
 
@@ -136,7 +136,7 @@ def load_data_to_postgre(pg_conn: _connection, data: list) -> None:
 def main():
     path_xls = 'task/01122020.xls'
     data_to_db = read_data_from_xls(path_xls)
-    with conn_context_pg(db_settings) as pg_conn:
+    with conn_context_pg(db_set) as pg_conn:
         load_data_to_postgre(pg_conn, data_to_db)
 
 

@@ -8,7 +8,7 @@
 - Создание БД
 
 ```
- py run_sql_script.py --f db/departments.ddl
+py solution/db/run_sql_script.py --f solution/db/departments.ddl
 ```
 - Импорт данных из .xls файла
 ```
@@ -16,7 +16,7 @@ py db/import_data_script.py
 ```
 - Запуск api
 ```
--  py api_flask/api.py
+py solution/api_flask/api.py 
 ```
 Доступный ендпоинт
 ```
