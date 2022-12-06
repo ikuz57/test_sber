@@ -2,12 +2,13 @@ CREATE SCHEMA IF NOT EXISTS content;
 GRANT ALL ON SCHEMA content TO app;
 
 CREATE TABLE IF NOT EXISTS content.departments (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     code BIGINT NOT NULL,
     type_dep TEXT NOT NULL,
     address TEXT NOT NULL,
-    coordinates TEXT NOT NULL
+    coordinates TEXT NOT NULL,
+    city TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS content.schedule (
@@ -29,3 +30,4 @@ CREATE TABLE IF NOT EXISTS content.workingtime (
     time_work INT,
     FOREIGN KEY (department_id) REFERENCES content.departments (id) ON DELETE CASCADE
 );
+

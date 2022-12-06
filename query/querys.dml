@@ -1,0 +1,58 @@
+CREATE TEMP TABLE IF NOT EXISTS constants (
+  key varchar PRIMARY KEY,
+  value varchar
+);
+
+INSERT INTO constants (key, value)
+VALUES
+('1','Операционный офис - кассовый центр'), 
+('2','Отделение на правах отдела в структуре ГОСБ'), 
+('3','Операционная касса вне кассового узла'), 
+('4','Подразделение самообслуживания'), 
+('5','Территориальный банк Сбербанка России'), 
+('6','Операционный офис - специализированный филиал, обслуживающий физических лиц'), 
+('7','Отделение на правах управления в структуре ГОСБ'), 
+('8','Передвижной пункт кассовых операций'), 
+('9','Дополнительный офис - специализированный филиал, обслуживающий юридических лиц'), 
+('10','Дополнительный офис - универсальный филиал'), 
+('11','Дополнительный офис - специализированный филиал, обслуживающий физических лиц'), 
+('12','Головное отделение Сбербанка России');
+
+CREATE OR REPLACE FUNCTION get_constant(_key varchar) RETURNS varchar AS
+  $$
+SELECT value FROM constants WHERE key = _key;
+$$ LANGUAGE sql IMMUTABLE;
+
+SELECT
+    city,
+    SUM(ct) FILTER (WHERE type_dep = get_constant('1')) AS "1",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('2')) AS "2",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('3')) AS "3",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('4')) AS "4'",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('5')) AS "5",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('6')) AS "6",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('7')) AS "7",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('8')) AS "8",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('9')) AS "9",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('10')) AS "10",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('11')) AS "11",
+    SUM(ct) FILTER (WHERE type_dep = get_constant('12')) AS "12"
+FROM (
+    SELECT city, type_dep, COUNT(*) as ct
+    FROM content.departments as dp
+        WHERE dp.type_dep IN (
+            get_constant('1'),
+            get_constant('2'),
+            get_constant('3'),
+            get_constant('4'),
+            get_constant('5'),
+            get_constant('6'),
+            get_constant('7'),
+            get_constant('8'),
+            get_constant('9'),
+            get_constant('10'),
+            get_constant('11'),
+            get_constant('12')) 
+        GROUP BY city, type_dep
+        ORDER BY city, type_dep) AS dp
+GROUP BY 1;
