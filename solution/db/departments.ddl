@@ -1,5 +1,5 @@
 CREATE SCHEMA IF NOT EXISTS content;
-GRANT ALL ON SCHEMA content TO app;
+-- GRANT ALL ON SCHEMA content TO app;
 
 CREATE TABLE IF NOT EXISTS content.departments (
     id SERIAL PRIMARY KEY,
@@ -10,6 +10,10 @@ CREATE TABLE IF NOT EXISTS content.departments (
     coordinates TEXT NOT NULL,
     city TEXT NOT NULL
 );
+
+CREATE INDEX city_idx ON content.departments(city); 
+CREATE UNIQUE INDEX dep_address_idx ON content.departments (name, address);
+
 
 CREATE TABLE IF NOT EXISTS content.schedule (
     id SERIAL PRIMARY KEY,

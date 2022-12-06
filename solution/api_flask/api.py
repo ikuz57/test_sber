@@ -1,8 +1,8 @@
 import json
 import logging
 from flask import Flask
-from db.context_manager import conn_context_pg
-from db.db_settings import db_settings
+from context_manager import conn_context_pg
+from db_settings import db_set
 
 app = Flask('sber_test')
 
@@ -48,7 +48,7 @@ def load_data_from_db(pg_conn, target):
 @app.route('/api/list/<city>', methods=['GET'])
 def index(city):
     target = city
-    with conn_context_pg(db_settings) as pg_conn:
+    with conn_context_pg(db_set) as pg_conn:
         values = load_data_from_db(pg_conn, target)
     data_to_json = {
         'response': {
