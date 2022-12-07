@@ -1,5 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS content;
 -- GRANT ALL ON SCHEMA content TO app;
+CREATE EXTENSION tablefunc;
 
 CREATE TABLE IF NOT EXISTS content.departments (
     id SERIAL PRIMARY KEY,
